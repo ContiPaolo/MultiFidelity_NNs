@@ -84,7 +84,7 @@ kernel_list = ['uniform','glorot_uniform']
 aux_dic = {'opt': opt_list, 'kernel_init': kernel_list}
 space = {
      'nodes' : scope.int(hp.qloguniform('nodes',np.log(16),np.log(128),2)),
-     'l2weight' : hp.loguniform('l2weight',np.log(0.0001),np.log(0.1)),
+     'l2weight' : hp.loguniform('l2weight',np.log(0.0001),np.log(1)),
      'lr': hp.loguniform('lr',np.log(0.0001),np.log(0.1)),
      'kernel_init': hp.choice('kernel_init',kernel_list),
      'opt' : hp.choice('opt',opt_list)}

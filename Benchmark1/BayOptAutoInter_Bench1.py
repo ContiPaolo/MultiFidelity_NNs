@@ -68,7 +68,7 @@ opt_list = ['Adam','Adamax','standardadam']
 kernel_list = ['uniform','glorot_uniform']
 aux_dic = {'opt': opt_list, 'kernel_init': kernel_list}
 space = {
-    'alpha' : hp.loguniform('alpha',np.log(0.0001),np.log(0.1)),
+     'alpha' : hp.loguniform('alpha',np.log(0.0001),np.log(0.1)),
      'nodes' : hp.qloguniform('nodes',np.log(4),np.log(128),2),
      'epochs': hp.quniform('epochs',1,3,1),
      'l2weight' : hp.loguniform('l2weight',np.log(0.0001),np.log(1)),
@@ -90,14 +90,15 @@ best_params = fmin(fn = objective,
                    algo = tpe.suggest,
                    max_evals = MAX_EVAL,
                    trials = bayes_trials)
-print('best parameters: ', best_params)
 
 transfBestparam(best_params,aux_dic)
+print('best parameters: ', best_params)
 finalModel = getModel(best_params,name)
   
 x_train = np.concatenate((xhf,xlf))
 yhf_train = np.concatenate((yhf,np.full(Nlf,-10)))
 ylf_train = np.concatenate((np.full(Nhf,-10),ylf))
+tf.random.set_seed(seed)
 hist = finalModel.fit(x_train,[yhf_train,ylf_train],epochs=Nepo*int(best_params['epochs']),batch_size=N,verbose=0, validation_data=(x_test,[yhf_test,ylf_test]))
 y_test = finalModel.predict(x_test)
 
